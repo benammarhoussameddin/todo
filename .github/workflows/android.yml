@@ -19,11 +19,14 @@ jobs:
           distribution: temurin
           java-version: '11'
 
-      - name: Grant Gradle permission
+      - name: Grant permission
         run: chmod +x gradlew
 
-      - name: Build Project
-        run: ./gradlew build
+      - name: Build APK
+        run: ./gradlew assembleDebug
+
+      - name: Build AAB
+        run: ./gradlew bundleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
