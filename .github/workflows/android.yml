@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Setup Java
         uses: actions/setup-java@v3
@@ -21,22 +22,22 @@ jobs:
       - name: Permission
         run: chmod +x gradlew
 
-      # ✅ BUILD APK
+      # ✅ BUILD APK FROM APP MODULE
       - name: Build APK
-        run: ./gradlew assemble
+        run: ./gradlew :app:assembleDebug
 
-      # ✅ BUILD AAB (IMPORTANT)
-      - name: Build Bundle
-        run: ./gradlew bundle
+      # ✅ BUILD AAB FROM APP MODULE
+      - name: Build AAB
+        run: ./gradlew :app:bundleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: APK
-          path: '**/*.apk'
+          path: app/build/outputs/**/*.apk
 
       - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
           name: AAB
-          path: '**/*.aab'
+          path: app/build/outputs/**/*.aab
