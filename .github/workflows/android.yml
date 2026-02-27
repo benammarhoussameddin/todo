@@ -10,32 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout project
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup JDK 11
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: '11'
 
-      - name: Grant permission
+      - name: Give permission
         run: chmod +x gradlew
 
-      - name: Build APK
-        run: ./gradlew :app:assembleDebug
+      - name: Build with Gradle
+        run: ./gradlew build --stacktrace
 
-      - name: Build AAB
-        run: ./gradlew :app:bundleDebug
-
-      - name: Upload APK
+      - name: Upload APK files
         uses: actions/upload-artifact@v4
         with:
           name: APK
-          path: '**/*.apk'
+          path: |
+            **/*.apk
 
-      - name: Upload AAB
+      - name: Upload AAB files
         uses: actions/upload-artifact@v4
         with:
           name: AAB
-          path: '**/*.aab'
+          path: |
+            **/*.aab
